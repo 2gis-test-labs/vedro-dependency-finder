@@ -49,4 +49,3 @@ def test_sequence_without_diff_indexes():
 
     with then:
         assert sequence == all_indexes
-
