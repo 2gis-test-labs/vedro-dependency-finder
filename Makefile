@@ -25,7 +25,7 @@ coverage:
 
 .PHONY: check-types
 check-types:
-	python3 -m mypy ${PROJECT_NAME}
+	python3 -m mypy ${PROJECT_NAME} --strict
 
 .PHONY: check-imports
 check-imports:
