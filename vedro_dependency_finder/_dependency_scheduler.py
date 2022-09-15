@@ -1,11 +1,6 @@
-from vedro.core import (
-    VirtualScenario,
-    AggregatedResult,
-    ScenarioResult,
-    MonotonicScenarioScheduler,
-    ScenarioScheduler,
-)
-from typing import List, Iterator, Tuple
+from typing import Iterator, List, Tuple
+
+from vedro.core import MonotonicScenarioScheduler, VirtualScenario
 
 
 class DependencyScheduler(MonotonicScenarioScheduler):

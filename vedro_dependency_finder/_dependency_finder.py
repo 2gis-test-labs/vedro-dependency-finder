@@ -1,5 +1,6 @@
-from vedro.core import Dispatcher, Plugin, PluginConfig, ScenarioOrderer, VirtualScenario, ConfigType
+from vedro.core import ConfigType, Dispatcher, Plugin, PluginConfig
 from vedro.events import ArgParsedEvent, ArgParseEvent, ConfigLoadedEvent
+
 from ._dependency_orderer import DependencyOrderer
 from ._dependency_scheduler import DependencyScheduler
 
@@ -16,8 +17,9 @@ class DependencyFinderPlugin(Plugin):
     def on_arg_parse(self, event: ArgParseEvent) -> None:
         group = event.arg_parser.add_argument_group("DependencyFinder")
 
-        group.add_argument("--dependency-finder", nargs="+", default=list(),
-                           help="Generates a sequence of tests at startup to detect unstable tests")
+        group.add_argument(
+            "--dependency-finder", nargs="+", default=list(),
+            help="Generates a sequence of tests at startup to detect unstable tests")
 
     def on_arg_parsed(self, event: ArgParsedEvent) -> None:
         scenarios_paths = event.args.dependency_finder
