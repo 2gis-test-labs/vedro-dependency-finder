@@ -1,18 +1,18 @@
-from copy import deepcopy
 from typing import List, Tuple
 
+from helpers import generate_sequence_of_indexes
 from vedro.core import ScenarioOrderer, VirtualScenario
 
 
 class DependencyOrderer(ScenarioOrderer):
-    def __init__(self, scenarios_paths):
+    def __init__(self, scenarios_paths: List[str]):
         self._scenarios_paths = scenarios_paths
 
     async def sort(self, scenarios: List[VirtualScenario]) -> List[VirtualScenario]:
         all_indexes, diff_indexes = self._get_indexes_of_scenarios(
             scenarios, self._scenarios_paths
         )
-        sequence_of_indexes = self._generate_sequence_of_indexes(all_indexes, diff_indexes)
+        sequence_of_indexes = generate_sequence_of_indexes(all_indexes, diff_indexes)
         sorted_scenarios = list()
 
         for index in sequence_of_indexes:
@@ -21,7 +21,7 @@ class DependencyOrderer(ScenarioOrderer):
         return sorted_scenarios
 
     def _get_indexes_of_scenarios(self, scenarios: List[VirtualScenario],
-                                  scenarios_paths: List[str]) -> Tuple:
+                                  scenarios_paths: List[str]) -> Tuple[List[int], List[int]]:
         all_indexes = list(range(len(scenarios)))
         diff_indexes = list()
 
@@ -36,40 +36,3 @@ class DependencyOrderer(ScenarioOrderer):
                 all_indexes += [all_indexes.pop(diff_index)]
 
         return all_indexes, diff_indexes
-
-    def _generate_sequence_of_indexes(self, all_indexes: List[int],
-                                      diff_indexes: List[int]) -> List[int]:
-        len_diff_indexes = len(diff_indexes)
-
-        if all_indexes:
-            len_all_indexes = len(all_indexes)
-        else:
-            all_indexes = deepcopy(diff_indexes)
-            len_all_indexes = len_diff_indexes
-
-        reversed_diff_indexes = deepcopy(diff_indexes)
-        reversed_diff_indexes.reverse()
-
-        sequence = list()
-        boundary_position = len_all_indexes - 1
-
-        for rev_index in reversed_diff_indexes:
-            sequence.append(rev_index)
-            boundary_position -= 1
-
-            if boundary_position == 0:
-                break
-
-            for index in all_indexes[:boundary_position]:
-                if index == rev_index:
-                    continue
-                sequence.append(index)
-                sequence.append(rev_index)
-
-        start_position = 0 if len_all_indexes == len_diff_indexes \
-            else len_all_indexes - len_diff_indexes - 1
-
-        for index in all_indexes[start_position:]:
-            sequence.append(index)
-
-        return sequence

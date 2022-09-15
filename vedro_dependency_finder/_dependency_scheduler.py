@@ -8,7 +8,7 @@ class DependencyScheduler(MonotonicScenarioScheduler):
         super().__init__(scenarios)
         self._discovered = [(scn.unique_id, scn) for scn in scenarios]
         self._scheduled = [(k, (v, 0)) for k, v in reversed(self._discovered)]
-        self._queue: List[str, Tuple[VirtualScenario, int]] = list()
+        self._queue: List = list()
 
     @property
     def discovered(self) -> Iterator[VirtualScenario]:
