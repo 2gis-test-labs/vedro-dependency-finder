@@ -1,6 +1,6 @@
 from typing import List, Tuple
 
-from helpers import generate_sequence_of_indexes
+from ._generate_sequence_of_indexes import generate_sequence_of_indexes
 from vedro.core import ScenarioOrderer, VirtualScenario
 
 

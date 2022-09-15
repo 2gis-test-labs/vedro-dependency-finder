@@ -3,6 +3,9 @@ from typing import List
 
 
 def generate_sequence_of_indexes(all_indexes: List[int], diff_indexes: List[int]) -> List[int]:
+    if not diff_indexes:
+        return all_indexes
+
     len_diff_indexes = len(diff_indexes)
 
     if all_indexes:

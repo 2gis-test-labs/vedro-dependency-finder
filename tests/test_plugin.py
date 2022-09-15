@@ -1,6 +1,6 @@
 from baby_steps import then, when
 
-from vedro_dependency_finder import DependencyFinder, DependencyFinderPlugin
+from vedro_dependency_finder._dependency_finder import DependencyFinder, DependencyFinderPlugin
 
 
 def test_plugin():
