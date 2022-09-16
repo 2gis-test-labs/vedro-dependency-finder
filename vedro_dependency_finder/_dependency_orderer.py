@@ -33,6 +33,6 @@ class DependencyOrderer(ScenarioOrderer):
         # для правильной генерации последовательности
         for diff_index in diff_indexes:
             if diff_index in all_indexes:
-                all_indexes += [all_indexes.pop(diff_index)]
+                all_indexes += [all_indexes.pop(all_indexes.index(diff_index))]
 
         return all_indexes, diff_indexes
