@@ -3,6 +3,7 @@ from vedro.events import ArgParsedEvent, ArgParseEvent, ConfigLoadedEvent
 
 from ._dependency_orderer import DependencyOrderer
 from ._dependency_scheduler import DependencyScheduler
+import os
 
 
 class DependencyFinderPlugin(Plugin):
@@ -23,6 +24,9 @@ class DependencyFinderPlugin(Plugin):
 
     def on_arg_parsed(self, event: ArgParsedEvent) -> None:
         scenarios_paths = event.args.dependency_finder
+
+        for path in scenarios_paths:
+            assert os.path.isfile(path), f"{path!r} does not exist"
 
         if scenarios_paths:
             self._global_config.Registry.ScenarioOrderer.register(
