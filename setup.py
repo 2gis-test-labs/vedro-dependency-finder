@@ -13,7 +13,7 @@ def find_dev_required():
 
 setup(
     name="vedro-dependency-finder",
-    version="1.0.0",
+    version="0.1.0",
     description="Plugin helps to find dependencies of unstable tests by shuffling selected tests",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",

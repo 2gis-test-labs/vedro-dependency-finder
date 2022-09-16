@@ -1,2 +1,2 @@
 vedro==1.7.2
-vedro-dependency-finder==1.0.0
+# vedro-dependency-finder==0.1.0
