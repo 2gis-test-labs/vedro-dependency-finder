@@ -21,7 +21,12 @@ class Config(vedro.Config):
             enabled = True
 
 ```
-
+Run several scenarios:
 ```shell
-$ vedro run --dependency-finder scenarios/your_scenario.py
+$ vedro run --dependency-finder scenarios/scenario.py scenarios/another_scenario.py
+```
+
+Run all scenarios:
+```shell
+$ vedro run -vvv --dependency-finder `find scenarios -name "*.py"`
 ```
