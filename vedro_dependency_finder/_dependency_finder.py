@@ -32,7 +32,7 @@ class DependencyFinderPlugin(Plugin):
         self._global_config.Registry.ScenarioScheduler.register(
             lambda scenarios: DependencyScheduler(
                 scenarios=scenarios,
-                diff_scenarios_paths=scenarios_paths,
+                scenarios_paths=scenarios_paths,
             ), self
         )
 

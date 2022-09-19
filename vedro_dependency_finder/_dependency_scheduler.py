@@ -7,14 +7,14 @@ from ._get_indexes_of_scenarios import get_indexes_of_scenarios
 
 
 class DependencyScheduler(MonotonicScenarioScheduler):
-    def __init__(self, scenarios: List[VirtualScenario], diff_scenarios_paths: List[str]) -> None:
+    def __init__(self, scenarios: List[VirtualScenario], scenarios_paths: List[str]) -> None:
         super().__init__(scenarios)
-        self._diff_scenarios_paths = diff_scenarios_paths
+        self._scenarios_paths = scenarios_paths
 
     def __aiter__(self) -> "ScenarioScheduler":
         scenarios = [scn for scn, _ in self._scheduled.values()]
         all_indexes, diff_indexes = get_indexes_of_scenarios(
-            scenarios, self._diff_scenarios_paths
+            scenarios, self._scenarios_paths
         )
         sequence_of_indexes = generate_sequence_of_indexes(all_indexes, diff_indexes)
         self._scenarios = list()
