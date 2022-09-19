@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 from typing import List
 from unittest.mock import Mock
@@ -22,7 +23,7 @@ def test_indexes_of_all_scenarios():
 
         iterator = range(0, 3)
 
-        root = Path("/tmp")
+        root = Path(os.getcwd())
 
         for i in iterator:
             path = f"scenario_{i}.py"
@@ -46,7 +47,7 @@ def test_diff_indexes_at_the_beginning_of_all_indexes():
         iterator = range(0, 5)
         diff_list = list(range(0, 3))
 
-        root = Path("/tmp")
+        root = Path("/tmp/app")
 
         for i in iterator:
             path = f"scenario_{i}.py"
@@ -72,7 +73,7 @@ def test_diff_indexes_in_the_middle_of_all_indexes():
         iterator = range(0, 5)
         diff_list = list(range(2, 4))
 
-        root = Path("/tmp")
+        root = Path(os.getcwd())
 
         for i in iterator:
             path = f"scenario_{i}.py"
@@ -98,7 +99,7 @@ def test_diff_indexes_at_the_end_of_all_indexes():
         iterator = range(0, 5)
         diff_list = list(range(3, 5))
 
-        root = Path("/tmp")
+        root = Path(os.getcwd())
 
         for i in iterator:
             path = f"scenario_{i}.py"
@@ -120,7 +121,9 @@ def test_one_diff_index_contained_in_one_all_indexes():
     with given:
         scenarios_paths = ["scenario_0.py"]
 
-        path = Path("/tmp/scenario_0.py")
+        root = Path(os.getcwd())
+        path = root / "scenario_0.py"
+
         scenarios = [VirtualScenario(create_scenario(path), [])]
 
     with when:
@@ -135,7 +138,8 @@ def test_diff_indexes_not_contained_in_all_indexes():
     with given:
         scenarios_paths = ["scenario_0.py"]
 
-        path = Path("/tmp/scenario_1.py")
+        root = Path(os.getcwd())
+        path = root / "scenario_1.py"
         scenarios = [VirtualScenario(create_scenario(path), [])]
 
     with when, raises(BaseException) as exc_info:
