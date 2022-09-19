@@ -1,6 +1,6 @@
 from typing import List
 
-from vedro.core import MonotonicScenarioScheduler, VirtualScenario, ScenarioScheduler
+from vedro.core import MonotonicScenarioScheduler, ScenarioScheduler, VirtualScenario
 
 from ._generate_sequence_of_indexes import generate_sequence_of_indexes
 from ._get_indexes_of_scenarios import get_indexes_of_scenarios
