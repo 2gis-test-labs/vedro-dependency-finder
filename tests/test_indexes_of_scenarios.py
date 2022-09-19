@@ -47,7 +47,7 @@ def test_diff_indexes_at_the_beginning_of_all_indexes():
         iterator = range(0, 5)
         diff_list = list(range(0, 3))
 
-        root = Path("/tmp/app")
+        root = Path(os.getcwd())
 
         for i in iterator:
             path = f"scenario_{i}.py"
