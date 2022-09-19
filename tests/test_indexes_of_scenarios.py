@@ -116,7 +116,7 @@ def test_diff_indexes_at_the_end_of_all_indexes():
         assert diff_indexes == diff_list
 
 
-def test_one_diff_index_contained_in_one_all_index():
+def test_one_diff_index_contained_in_one_all_indexes():
     with given:
         scenarios_paths = ["scenario_0.py"]
 
