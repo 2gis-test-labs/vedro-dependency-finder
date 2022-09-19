@@ -1,9 +1,9 @@
+import os
+
 from vedro.core import ConfigType, Dispatcher, Plugin, PluginConfig
 from vedro.events import ArgParsedEvent, ArgParseEvent, ConfigLoadedEvent
 
-from ._dependency_orderer import DependencyOrderer
 from ._dependency_scheduler import DependencyScheduler
-import os
 
 
 class DependencyFinderPlugin(Plugin):
@@ -20,7 +20,8 @@ class DependencyFinderPlugin(Plugin):
 
         group.add_argument(
             "--dependency-finder", nargs="+", default=list(),
-            help="Generates a sequence of tests at startup to detect unstable tests")
+            help="Generates a sequence of tests at startup to detect unstable tests"
+        )
 
     def on_arg_parsed(self, event: ArgParsedEvent) -> None:
         scenarios_paths = event.args.dependency_finder
@@ -28,11 +29,12 @@ class DependencyFinderPlugin(Plugin):
         for path in scenarios_paths:
             assert os.path.isfile(path), f"{path!r} does not exist"
 
-        if scenarios_paths:
-            self._global_config.Registry.ScenarioOrderer.register(
-                lambda: DependencyOrderer(scenarios_paths), self
-            )
-            self._global_config.Registry.ScenarioScheduler.register(DependencyScheduler, self)
+        self._global_config.Registry.ScenarioScheduler.register(
+            lambda scenarios: DependencyScheduler(
+                scenarios=scenarios,
+                diff_scenarios_paths=scenarios_paths,
+            ), self
+        )
 
 
 class DependencyFinder(PluginConfig):

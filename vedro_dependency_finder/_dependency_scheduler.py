@@ -1,35 +1,29 @@
-from typing import Iterator, List
+from typing import List
 
 from vedro.core import MonotonicScenarioScheduler, VirtualScenario
 
+from ._generate_sequence_of_indexes import generate_sequence_of_indexes
+from ._get_indexes_of_scenarios import get_indexes_of_scenarios
+
 
 class DependencyScheduler(MonotonicScenarioScheduler):
-    def __init__(self, scenarios: List[VirtualScenario]) -> None:
+    def __init__(self, scenarios: List[VirtualScenario], diff_scenarios_paths: List[str]) -> None:
         super().__init__(scenarios)
-        self._discovered = [(scn.unique_id, scn) for scn in scenarios]
-        self._scheduled = [(k, (v, 0)) for k, v in reversed(self._discovered)]
-        self._queue: List = list()
+        self._diff_scenarios_paths = diff_scenarios_paths
 
-    @property
-    def discovered(self) -> Iterator[VirtualScenario]:
-        for item in self._discovered:
-            yield item[1]
+    def __aiter__(self) -> "DependencyScheduler":
+        scenarios = [scn for scn, _ in self._scheduled.values()]
+        all_indexes, diff_indexes = get_indexes_of_scenarios(
+            scenarios, self._diff_scenarios_paths
+        )
+        sequence_of_indexes = generate_sequence_of_indexes(all_indexes, diff_indexes)
+        self._scenarios = list()
 
-    @property
-    def scheduled(self) -> Iterator[VirtualScenario]:
-        for item in reversed(self._scheduled):
-            scenario, repeats = self._scheduled[item[0]]
-            for _ in range(repeats + 1):
-                yield scenario
-
-    def ignore(self, scenario: VirtualScenario) -> None:
-        self._scheduled.pop(scenario.unique_id)
-        self._queue.pop(scenario.unique_id)
+        for index in sequence_of_indexes:
+            self._scenarios.append(scenarios[index])
+        return super().__aiter__()
 
     async def __anext__(self) -> VirtualScenario:
-        while len(self._queue) > 0:
-            _, (scenario, repeats) = self._queue.pop()
-            if repeats > 0:
-                self._queue[scenario.unique_id] = (scenario, repeats - 1)
-            return scenario
+        while len(self._scenarios) > 0:
+            return self._scenarios.pop()
         raise StopAsyncIteration()
