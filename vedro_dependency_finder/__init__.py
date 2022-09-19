@@ -5,4 +5,4 @@ from ._get_indexes_of_scenarios import get_indexes_of_scenarios
 
 __version__ = "0.1.0"
 __all__ = ("DependencyScheduler", "DependencyFinderPlugin", "DependencyFinder",
-           "generate_sequence_of_indexes",)
+           "generate_sequence_of_indexes", "get_indexes_of_scenarios")
