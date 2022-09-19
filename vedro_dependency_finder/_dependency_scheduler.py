@@ -1,6 +1,6 @@
 from typing import List
 
-from vedro.core import MonotonicScenarioScheduler, VirtualScenario
+from vedro.core import MonotonicScenarioScheduler, VirtualScenario, ScenarioScheduler
 
 from ._generate_sequence_of_indexes import generate_sequence_of_indexes
 from ._get_indexes_of_scenarios import get_indexes_of_scenarios
@@ -11,7 +11,7 @@ class DependencyScheduler(MonotonicScenarioScheduler):
         super().__init__(scenarios)
         self._diff_scenarios_paths = diff_scenarios_paths
 
-    def __aiter__(self) -> "DependencyScheduler":
+    def __aiter__(self) -> "ScenarioScheduler":
         scenarios = [scn for scn, _ in self._scheduled.values()]
         all_indexes, diff_indexes = get_indexes_of_scenarios(
             scenarios, self._diff_scenarios_paths
