@@ -13,14 +13,19 @@ class DependencyScheduler(MonotonicScenarioScheduler):
 
     def __aiter__(self) -> "ScenarioScheduler":
         scenarios = [scn for scn, _ in self._scheduled.values()]
-        all_indexes, diff_indexes = get_indexes_of_scenarios(
-            scenarios, self._scenarios_paths
-        )
-        sequence_of_indexes = generate_sequence_of_indexes(all_indexes, diff_indexes)
-        self._scenarios = list()
 
-        for index in sequence_of_indexes:
-            self._scenarios.append(scenarios[index])
+        if self._scenarios_paths:
+            all_indexes, diff_indexes = get_indexes_of_scenarios(
+                scenarios, self._scenarios_paths
+            )
+            sequence_of_indexes = generate_sequence_of_indexes(all_indexes, diff_indexes)
+
+            self._scenarios = list()
+            for index in sequence_of_indexes:
+                self._scenarios.append(scenarios[index])
+        else:
+            self._scenarios = scenarios
+
         return super().__aiter__()
 
     async def __anext__(self) -> VirtualScenario:
