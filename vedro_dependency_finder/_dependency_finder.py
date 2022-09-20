@@ -28,7 +28,8 @@ class DependencyFinderPlugin(Plugin):
         scenarios_paths = event.args.dependency_finder
 
         for path in scenarios_paths:
-            assert os.path.isdir(path) or os.path.isfile(path), f"{path!r} does not exist"
+            assert not os.path.isdir(path), f"scenarios expected, not directory {path.name!r}"
+            assert os.path.isfile(path), f"{path!r} does not exist"
 
         self._global_config.Registry.ScenarioScheduler.register(
             lambda scenarios: DependencyScheduler(
