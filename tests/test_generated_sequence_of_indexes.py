@@ -2,7 +2,7 @@ from copy import deepcopy
 
 from baby_steps import given, then, when
 
-from vedro_dependency_finder._generate_sequence_of_indexes import generate_sequence_of_indexes
+from vedro_dependency_finder import generate_sequence_of_indexes
 
 
 def test_sequence_with_one_diff_index():

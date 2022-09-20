@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Set
 
 from vedro.core import MonotonicScenarioScheduler, ScenarioScheduler, VirtualScenario
 
@@ -7,7 +7,7 @@ from ._get_indexes_of_scenarios import get_indexes_of_scenarios
 
 
 class DependencyScheduler(MonotonicScenarioScheduler):
-    def __init__(self, scenarios: List[VirtualScenario], scenarios_paths: List[str]) -> None:
+    def __init__(self, scenarios: List[VirtualScenario], scenarios_paths: Set[str]) -> None:
         super().__init__(scenarios)
         self._scenarios_paths = scenarios_paths
 

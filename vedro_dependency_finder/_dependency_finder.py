@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 
 from vedro.core import ConfigType, Dispatcher, Plugin, PluginConfig
 from vedro.events import ArgParsedEvent, ArgParseEvent, ConfigLoadedEvent
@@ -19,7 +20,7 @@ class DependencyFinderPlugin(Plugin):
         group = event.arg_parser.add_argument_group("DependencyFinder")
 
         group.add_argument(
-            "--dependency-finder", nargs="+", default=list(),
+            "--dependency-finder", nargs="+", default=set(), type=lambda x: Path(x).absolute(),
             help="Generates a sequence of tests at startup to detect unstable tests"
         )
 
@@ -27,7 +28,7 @@ class DependencyFinderPlugin(Plugin):
         scenarios_paths = event.args.dependency_finder
 
         for path in scenarios_paths:
-            assert os.path.isfile(path), f"{path!r} does not exist"
+            assert os.path.isdir(path) or os.path.isfile(path), f"{path!r} does not exist"
 
         self._global_config.Registry.ScenarioScheduler.register(
             lambda scenarios: DependencyScheduler(
