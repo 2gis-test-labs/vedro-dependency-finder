@@ -103,7 +103,7 @@ def test_one_diff_index_contained_in_one_all_indexes(root: Path):
 def test_diff_indexes_not_contained_in_all_indexes(root: Path):
     with given:
         scenarios = [create_scenario(root / "scenario_0.py")]
-        scenarios_paths = {str(root / "scenario_1.py")}
+        scenarios_paths = {root / "scenario_1.py"}
 
     with when, raises(BaseException) as exc_info:
         get_indexes_of_scenarios(scenarios, scenarios_paths)
