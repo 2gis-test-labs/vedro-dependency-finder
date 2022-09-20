@@ -1,10 +1,11 @@
+from pathlib import Path
 from typing import List, Set, Tuple
 
 from vedro.core import VirtualScenario
 
 
 def get_indexes_of_scenarios(scenarios: List[VirtualScenario],
-                             scenarios_paths: Set[str]) -> Tuple[List[int], List[int]]:
+                             scenarios_paths: Set[Path]) -> Tuple[List[int], List[int]]:
     assert scenarios, "Scenarios not found!"
     assert scenarios_paths, "Paths of scenarios not found!"
 
